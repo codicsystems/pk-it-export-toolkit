@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Export invoice template</title>
+
+<!--
+  EXPORT INVOICE TEMPLATE — Pakistan IT services
+  ==============================================
+
+  An invoice from a Pakistani company to an overseas client has to satisfy three
+  audiences at once: the client's finance department, your bank's remittance
+  desk, and eventually the tax authority. This template is built for all three.
+
+  HOW TO USE
+  1. Replace everything in [SQUARE BRACKETS].
+  2. Add or remove line item rows as needed.
+  3. Set the amounts. Totals do NOT calculate automatically — this is a document,
+     not an application. Check your arithmetic.
+  4. Print to PDF (Ctrl/Cmd + P → Save as PDF). The @media print rules strip the
+     help text and set A4 margins.
+
+  WHAT NOT TO CHANGE, AND WHY
+  - The "Description" text should be specific and service-shaped. "Booking
+    platform development — milestone 2 of 4: quoting and payment flow" is good.
+    "Consulting" and "Development services" invite questions from a remittance
+    desk that a specific description does not.
+  - Keep the export declaration line and the purpose-code instruction. They cost
+    nothing and they tell the sending bank what the money is for before it
+    arrives.
+  - State the currency explicitly as a three-letter code, not just a symbol.
+    "$" is ambiguous across at least eight currencies.
+-->
+
+<style>
+  :root {
+    --ink: #151a26;
+    --muted: #5c6885;
+    --line: #dde3ee;
+    --accent: #12a17a;
+    --primary: #030d4e;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink);
+    margin: 0;
+    padding: 24px;
+    background: #f4f6fa;
+  }
+
+  .sheet {
+    max-width: 820px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 44px 48px;
+    box-shadow: 0 1px 3px rgba(3, 13, 78, .1);
+  }
+
+  .help {
+    max-width: 820px;
+    margin: 0 auto 20px;
+    padding: 14px 18px;
+    background: #fff8e6;
+    border-left: 3px solid #d9a441;
+    font-size: 12.5px;
+    line-height: 1.6;
+  }
+  .help strong { display: block; margin-bottom: 4px; }
+
+  table { width: 100%; border-collapse: collapse; }
+  td, th { vertical-align: top; }
+
+  .masthead td { padding-bottom: 22px; }
+  .logo { font-size: 22px; font-weight: 700; color: var(--primary); letter-spacing: -0.5px; }
+  .logo img { max-height: 52px; }
+  h1 { font-size: 26px; margin: 0; color: var(--primary); font-weight: 700; }
+
+  .meta { width: 100%; margin-top: 10px; }
+  .meta td { padding: 2px 0; font-size: 12.5px; }
+  .meta .k { color: var(--muted); padding-right: 14px; }
+  .meta .v { text-align: right; font-weight: 600; }
+
+  .rule { height: 3px; background: var(--accent); margin: 4px 0 22px; }
+
+  .parties td { width: 50%; padding-right: 26px; }
+  .label {
+    font-size: 10px; letter-spacing: 1.1px; text-transform: uppercase;
+    color: var(--accent); font-weight: 700; margin-bottom: 5px;
+  }
+  .party-name { font-weight: 700; color: var(--primary); margin-bottom: 3px; }
+  .party-detail { color: var(--muted); font-size: 12.5px; line-height: 1.6; }
+
+  .items { margin-top: 28px; }
+  .items th {
+    text-align: left; font-size: 10px; letter-spacing: .8px; text-transform: uppercase;
+    color: var(--muted); border-bottom: 2px solid var(--primary);
+    padding: 0 10px 6px 0; font-weight: 700;
+  }
+  .items th.r, .items td.r { text-align: right; padding-right: 0; }
+  .items td { padding: 11px 10px 11px 0; border-bottom: 1px solid var(--line); }
+  .items .amount { font-weight: 600; color: var(--primary); white-space: nowrap; }
+
+  .totals { margin-top: 16px; }
+  .totals .spacer { width: 58%; }
+  .totals table td { padding: 4px 0; }
+  .totals .k { text-align: right; padding-right: 22px; color: var(--muted); }
+  .totals .v { text-align: right; white-space: nowrap; }
+  .grand td {
+    border-top: 2px solid var(--primary); padding-top: 10px !important;
+    font-size: 17px; font-weight: 700; color: var(--primary);
+  }
+
+  .paybox {
+    margin-top: 30px; background: #f4f6fa;
+    border-left: 3px solid var(--primary); padding: 16px 20px;
+  }
+  .paybox td { padding: 2px 0; font-size: 12.5px; }
+  .paybox .k { color: var(--muted); width: 150px; }
+  .paybox .v { font-weight: 600; }
+
+  .note { margin-top: 18px; font-size: 12px; color: var(--muted); line-height: 1.65; }
+  .declaration { margin-top: 18px; font-size: 12px; color: var(--muted); }
+
+  .terms { margin-top: 26px; font-size: 12px; }
+  .terms ul { margin: 6px 0 0; padding-left: 18px; color: var(--muted); }
+  .terms li { margin-bottom: 3px; }
+
+  footer {
+    margin-top: 34px; padding-top: 14px; border-top: 1px solid var(--line);
+    font-size: 11px; color: var(--muted); line-height: 1.6;
+  }
+
+  @media print {
+    body { background: #fff; padding: 0; font-size: 11.5pt; }
+    .help { display: none; }
+    .sheet { box-shadow: none; max-width: none; padding: 0; }
+    @page { size: A4; margin: 16mm 15mm; }
+  }
+</style>
+</head>
+<body>
+
+<div class="help">
+  <strong>This box does not print.</strong>
+  Replace everything in [SQUARE BRACKETS], then print to PDF. Totals do not
+  calculate — check the arithmetic yourself. Keep the export declaration and the
+  purpose-code instruction: they tell the sending bank what the money is for
+  before it reaches Pakistan.
+</div>
+
+<div class="sheet">
+
+  <table class="masthead">
+    <tr>
+      <td style="width:58%">
+        <!-- Swap this for <img src="logo.png" alt="[COMPANY]"> if you have one -->
+        <div class="logo">[YOUR COMPANY NAME]</div>
+        <div class="party-detail" style="margin-top:4px">[Your tagline, optional]</div>
+      </td>
+      <td>
+        <h1>Invoice</h1>
+        <table class="meta">
+          <tr><td class="k">Invoice number</td><td class="v">[CS-EXP-2026-001]</td></tr>
+          <tr><td class="k">Issue date</td><td class="v">[1 October 2026]</td></tr>
+          <tr><td class="k">Due date</td><td class="v">[15 October 2026]</td></tr>
+          <tr><td class="k">Your reference</td><td class="v">[PO-1234]</td></tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <div class="rule"></div>
+
+  <table class="parties">
+    <tr>
+      <td>
+        <div class="label">From</div>
+        <div class="party-name">[COMPANY LEGAL NAME, EXACTLY AS REGISTERED]</div>
+        <div class="party-detail">
+          [Registered office address line 1]<br>
+          [City, postcode, Pakistan]<br>
+          CUIN [0000000]<br>
+          NTN [J000000]<br>
+          [PSEB registration number, if registered]
+        </div>
+      </td>
+      <td>
+        <div class="label">Billed to</div>
+        <div class="party-name">[CLIENT LEGAL ENTITY NAME]</div>
+        <div class="party-detail">
+          <!-- Full legal entity name and registered address, not a contact
+               person. The finance department needs to match this to their
+               supplier record. -->
+          [Registered address line 1]<br>
+          [City, postcode]<br>
+          [Country]<br>
+          [Their VAT / tax reference, if they need it shown]
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <table class="items">
+    <thead>
+      <tr>
+        <th style="width:52%">Description</th>
+        <th class="r" style="width:12%">Qty</th>
+        <th class="r" style="width:18%">Unit price</th>
+        <th class="r" style="width:18%">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>[Booking platform development — milestone 2 of 4: quoting and payment flow]</td>
+        <td class="r">1</td>
+        <td class="r">[6,400.00]</td>
+        <td class="r amount">[6,400.00]</td>
+      </tr>
+      <tr>
+        <td>[Supplier API integration, including error handling and monitoring]</td>
+        <td class="r">[3 days]</td>
+        <td class="r">[450.00]</td>
+        <td class="r amount">[1,350.00]</td>
+      </tr>
+      <!-- Copy a <tr> block to add a line. -->
+    </tbody>
+  </table>
+
+  <table class="totals">
+    <tr>
+      <td class="spacer"></td>
+      <td>
+        <table>
+          <tr><td class="k">Subtotal</td><td class="v">[7,750.00]</td></tr>
+          <!-- Delete the discount row if there is none -->
+          <tr><td class="k">Discount</td><td class="v">[−387.50]</td></tr>
+          <!-- Exported IT services are normally zero-rated for sales tax, so
+               there is usually no tax line at all on an export invoice. Do not
+               add one unless your accountant has told you to. -->
+          <tr class="grand">
+            <td class="k" style="color:inherit">Total [USD]</td>
+            <td class="v">[7,362.50]</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <div class="paybox">
+    <div class="label" style="color:var(--primary)">Payment details</div>
+    <table>
+      <tr><td class="k">Beneficiary name</td><td class="v">[COMPANY LEGAL NAME]</td></tr>
+      <tr><td class="k">Beneficiary address</td><td class="v">[Registered office, city, Pakistan]</td></tr>
+      <tr><td class="k">Bank</td><td class="v">[BANK NAME]</td></tr>
+      <tr><td class="k">Branch</td><td class="v">[BRANCH, CITY, PAKISTAN]</td></tr>
+      <tr><td class="k">IBAN</td><td class="v">[PK00XXXX0000000000000000]</td></tr>
+      <tr><td class="k">Account number</td><td class="v">[0000000000]</td></tr>
+      <tr><td class="k">SWIFT / BIC</td><td class="v">[XXXXPKKA]</td></tr>
+      <tr><td class="k">Currency</td><td class="v">[USD]</td></tr>
+      <tr><td class="k">Payment reference</td><td class="v">[CS-EXP-2026-001]</td></tr>
+    </table>
+    <div class="note" style="border-top:1px solid var(--line); padding-top:10px; margin-top:12px">
+      <!-- KEEP THIS LINE. It is the cheapest insurance on this document.
+           It tells the sending bank what to put in the reference field, which
+           is what your bank's remittance desk reads when deciding how to code
+           the credit. -->
+      Please instruct your bank to remit this payment as payment for information
+      technology services.
+    </div>
+  </div>
+
+  <div class="declaration">
+    <!-- Confirm the correct wording for your situation with your accountant. -->
+    Export of IT services from Pakistan. Zero-rated for sales tax purposes.
+  </div>
+
+  <div class="terms">
+    <div class="label">Terms</div>
+    <ul>
+      <li>Payment due by the date stated above, in [USD], by bank transfer to the account shown.</li>
+      <li>Bank charges at the sending end are payable by the client. Please send in full.</li>
+      <li>Work pauses on any invoice more than [14] days overdue, and the timeline moves by the length of the pause.</li>
+      <li>Code, documentation and credentials transfer on receipt of the final payment.</li>
+    </ul>
+  </div>
+
+  <footer>
+    <strong>[COMPANY LEGAL NAME]</strong> ·
+    [Registered office, city, Pakistan]<br>
+    CUIN [0000000] · NTN [J000000] · [PSEB registration number]<br>
+    [email@company.com] · [+92 000 0000000] · [company.com]
+  </footer>
+
+</div>
+
+</body>
+</html>
